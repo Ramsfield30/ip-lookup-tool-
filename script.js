@@ -9,7 +9,7 @@ searchBtn.addEventListener('click', function() {
         return;
     }
     
-    fetch(`http://ip-api.com/json/${ipAddress}`)
+    fetch(`https://ip-api.com/json/${ipAddress}`)
         .then(response => response.json())
         .then(data => {
      // Add this line
