@@ -24,12 +24,22 @@
       <p>Timezone: <span id="timezone">-</span></p>
       <p>Coordinates: <span id="coords">-</span></p>
       <p>ZIP Code: <span id="zip">-</span></p>
+<p>ISP: <span id="isp">-</span></p>
+<p>ASN: <span id="asn">-</span></p>
+<p>Currency: <span id="currency">-</span></p>
+<p>Calling Code: <span id="calling-code">-</span></p>
       <!--The Map-->
     </div>
-    <div id="map-container">
+    <div id="map-section" style=display: none;>
       <h3>Location Map</h3>
       <div id="map"></div>
     </div> 
+    <footer style="margin-top: 40px; text-align: center; color: #888; font-size: 14px;">
+    <p>Powered by <a href="https://ipapi.co/" style="color: #00ffff;">ipapi.co</a> • 
+       Maps by <a href="https://leafletjs.com/" style="color: #00ffff;">Leaflet</a></p>
+    <p>© 2026 Ramsfield IP Tracker • 
+       <a href="#" style="color: #00ffff;" onclick="alert('Privacy: We only show your IP, no data is stored.')">Privacy</a></p>
+</footer>
     <script src="script.js"></script>
   </body>
 </html>

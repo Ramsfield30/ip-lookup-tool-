@@ -10,8 +10,15 @@ function updateDisplay(data) {
     document.getElementById('city').textContent = data.city || 'Not available';
     document.getElementById('country').textContent = data.country_name || 'Not available';
     document.getElementById('timezone').textContent = data.timezone || 'Not available';
-    document.getElementById('coords').textContent = data.latitude && data.longitude ? `${data.latitude}, ${data.longitude}` : 'Not available';
+    document.getElementById('coords').textContent = data.latitude && data.longitude ? 
+        `${data.latitude}, ${data.longitude}` : 'Not available';
     document.getElementById('zip').textContent = data.postal || 'Not available';
+    document.getElementById('isp').textContent = data.org || 'Not available';
+    document.getElementById('asn').textContent = data.asn || 'Not available';
+    document.getElementById('currency').textContent = data.currency || 'Not available';
+    document.getElementById('calling-code').textContent = data.country_calling_code || 'Not available';
+
+
     
     // Show map if coordinates exist
     if (data.latitude && data.longitude) {
@@ -19,27 +26,34 @@ function updateDisplay(data) {
         updateMap(
             parseFloat(data.latitude), 
             parseFloat(data.longitude), 
-            data.city || 'Unknown Location',
-            data.country_name || ''
+            data.city || 'Unknown',
+            data.country_name || '',
+            data.org || 'Unknown ISP'
         );
     } else {
         hideMapSection();
     }
 }
 
+
 // Function to show loading state
 function showLoading() {
     const fields = ['network', 'city', 'country', 'timezone', 'coords', 'zip'];
     fields.forEach(id => {
-        document.getElementById(id).textContent = 'Loading...';
+        document.getElementById(id).innerHTML = '<span class="loading-dots">...</span>';
     });
     hideMapSection();
+
 }
 
 // Show/hide map section
 function showMapSection() {
     if (mapSection) {
         mapSection.style.display = 'block';
+        // Refresh map size after showing
+        setTimeout(() => {
+            if (map) map.invalidateSize();
+        }, 100);
     }
 }
 
@@ -49,30 +63,29 @@ function hideMapSection() {
     }
 }
 
-// MAP FUNCTIONS
+// LIGHT MODE MAP FUNCTIONS
 function initMap() {
     if (!map) {
-        // Create map with dark theme
+        // Create light mode map
         map = L.map('map', {
             zoomControl: true,
-            attributionControl: false
+            attributionControl: true,
+            fadeAnimation: true
         });
         
-        // Add dark tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap contributors, © CARTO',
+        // Add standard OpenStreetMap tiles (LIGHT MODE)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             maxZoom: 19
         }).addTo(map);
         
-        // Add custom attribution
-        L.control.attribution({
-            position: 'bottomright'
-        }).addTo(map).addAttribution('IP Lookup Tool');
+        // Add scale control
+        L.control.scale({ imperial: false }).addTo(map);
     }
     return map;
 }
 
-function updateMap(lat, lng, city, country) {
+function updateMap(lat, lng, city, country, isp) {
     // Initialize map if needed
     const mapInstance = initMap();
     
@@ -84,44 +97,54 @@ function updateMap(lat, lng, city, country) {
         mapInstance.removeLayer(marker);
     }
     
-    // Create custom icon
+    // Create BLUE marker (visible on light map)
     const customIcon = L.divIcon({
-        html: '<i class="fas fa-map-marker-alt" style="color: #ff00ff; font-size: 30px; text-shadow: 0 0 10px #ff00ff;"></i>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30],
-        className: 'custom-marker'
+        html: '<div style="background: #0066ff; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,102,255,0.7);"></div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
     });
     
     // Add new marker
-    marker = L.marker([lat, lng], { icon: customIcon }).addTo(mapInstance);
+    marker = L.marker([lat, lng], { 
+        icon: customIcon,
+        title: `${city}, ${country}`
+    }).addTo(mapInstance);
     
     // Create popup content
     const popupContent = `
-        <div style="text-align: center; padding: 10px;">
-            <h3 style="margin: 0; color: #00ffff;">📍 ${city}</h3>
-            <p style="margin: 5px 0; color: #666;">${country}</p>
-            <hr style="margin: 8px 0;">
-            <p style="margin: 5px 0;">
-                <strong>Latitude:</strong> ${lat.toFixed(4)}<br>
-                <strong>Longitude:</strong> ${lng.toFixed(4)}
-            </p>
-            <a href="https://www.google.com/maps?q=${lat},${lng}" 
-               target="_blank" 
-               style="display: inline-block; margin-top: 8px; padding: 5px 10px; background: #00ffff; color: black; text-decoration: none; border-radius: 4px; font-size: 12px;">
-               <i class="fas fa-external-link-alt"></i> Open in Google Maps
-            </a>
+        <div style="min-width: 200px; font-family: Arial, sans-serif;">
+            <div style="background: #0066ff; color: white; padding: 8px; border-radius: 5px; margin-bottom: 8px;">
+                <strong><i class="fas fa-map-pin"></i> ${city}</strong>
+            </div>
+            <p style="margin: 4px 0;"><strong>Country:</strong> ${country}</p>
+            <p style="margin: 4px 0;"><strong>ISP:</strong> ${isp.substring(0, 40)}${isp.length > 40 ? '...' : ''}</p>
+            <p style="margin: 4px 0;"><strong>Lat:</strong> ${lat.toFixed(6)}</p>
+            <p style="margin: 4px 0;"><strong>Lng:</strong> ${lng.toFixed(6)}</p>
+            <div style="margin-top: 10px; display: flex; gap: 5px;">
+                <a href="https://maps.google.com/?q=${lat},${lng}" 
+                   target="_blank" 
+                   style="flex: 1; text-align: center; padding: 6px; background: #0066ff; color: white; text-decoration: none; border-radius: 4px; font-size: 12px;">
+                   Google Maps
+                </a>
+                <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}" 
+                   target="_blank" 
+                   style="flex: 1; text-align: center; padding: 6px; background: #4CAF50; color: white; text-decoration: none; border-radius: 4px; font-size: 12px;">
+                   OSM
+                </a>
+            </div>
         </div>
     `;
     
     // Bind popup to marker
     marker.bindPopup(popupContent).openPopup();
     
-    // Add circle for accuracy indication
+    // Add accuracy circle
     L.circle([lat, lng], {
-        color: '#00ffff',
-        fillColor: '#00ffff',
+        color: '#0066ff',
+        fillColor: '#0066ff',
         fillOpacity: 0.1,
-        radius: 2000 // 2km radius
+        weight: 2,
+        radius: 1500
     }).addTo(mapInstance);
 }
 
@@ -148,17 +171,11 @@ window.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const visitorIP = data.ip;
-            
-            // Fill the input field with visitor's IP
             ipInput.value = visitorIP;
-            
-            // Fetch and display the geolocation data
             fetchIPData(visitorIP);
         })
         .catch(error => {
             console.error('Error getting IP:', error);
-            
-            // Fallback: Try a different IP service if first fails
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
@@ -173,20 +190,18 @@ window.addEventListener('DOMContentLoaded', function() {
         });
 });
 
-// Keep the original search functionality
+// Search button click
 searchBtn.addEventListener('click', function() {
     const ipAddress = ipInput.value.trim();
-    
     if (ipAddress === '') {
         alert('Please enter an IP address!');
         return;
     }
-    
     showLoading();
     fetchIPData(ipAddress);
 });
 
-// Add keyboard support (Enter key to search)
+// Enter key support
 ipInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         searchBtn.click();
