@@ -9,17 +9,16 @@ searchBtn.addEventListener('click', function() {
         return;
     }
     
-    fetch(`https://ip-api.com/json/${ipAddress}`)
+    fetch(`https://ipapi.co/${ipAddress}/json/`)
         .then(response => response.json())
-        .then(data => {
-            alert('Data received!');
-            document.getElementById('network').textContent = data.isp || 'Not available';
-            document.getElementById('city').textContent = data.city || 'Not available';
-            document.getElementById('country').textContent = data.country || 'Not available';
-            document.getElementById('timezone').textContent = data.timezone || 'Not available';
-            document.getElementById('coords').textContent = data.lat && data.lon ? `${data.lat}, ${data.lon}` : 'Not available';
-            document.getElementById('zip').textContent = data.zip || 'Not available';
-        })
+    .then(data => {
+    document.getElementById('network').textContent = data.org || 'Not available';
+    document.getElementById('city').textContent = data.city || 'Not available';
+    document.getElementById('country').textContent = data.country_name || 'Not available';
+    document.getElementById('timezone').textContent = data.timezone || 'Not available';
+    document.getElementById('coords').textContent = data.latitude && data.longitude ? `${data.latitude}, ${data.longitude}` : 'Not available';
+    document.getElementById('zip').textContent = data.postal || 'Not available';
+})    
         .catch(error => {
             alert('Error: ' + error);
         });
