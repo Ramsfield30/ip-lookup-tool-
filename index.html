@@ -3,6 +3,8 @@
   <head>
     <title>IP Lookup Tool</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
     <meta name="description" content="Instantly lookup any IP address. See your own IP automatically, then trace others for location, ISP, timezone, coordinates, and interactive map. 100% free.">
@@ -22,7 +24,12 @@
       <p>Timezone: <span id="timezone">-</span></p>
       <p>Coordinates: <span id="coords">-</span></p>
       <p>ZIP Code: <span id="zip">-</span></p>
+      <!--The Map-->
     </div>
+    <div id="map-container">
+      <h3>Location Map</h3>
+      <div id="map"></div>
+    </div> 
     <script src="script.js"></script>
   </body>
 </html>

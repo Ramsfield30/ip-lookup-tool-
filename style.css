@@ -40,6 +40,7 @@ h1{
   color: white;
   mmargin-right: 10px;
 }
+/*For the button*/
 #searchBtn{
   padding: 12px 30px;
   background: #00ffff;
@@ -49,6 +50,7 @@ h1{
   font-weight: bold;
   cursor: pointer;
 }
+/*For Results*/
 #results{
   margin-top: 30px;
   padding: 20px;
@@ -68,4 +70,18 @@ h1{
   color: #00ffff;
   font-weight: bold;
   float: right;
+}
+/*For the map*/
+#map-container{
+  margin-top: 30px;
+  text-align: center;
+}
+#map{
+  height: 400px;
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #00ffff;
 }
