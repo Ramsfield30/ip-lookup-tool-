@@ -3,7 +3,8 @@ body{
   margin: 0;
   padding: 20px;
   color: white;
-  height: 100hv;
+  height: 100vh;
+  font-family: Arial, sans-serif;
 }
 h1{
   text-align: center;
@@ -37,6 +38,7 @@ h1{
   border: 2px solid #00ffff;
   border-radius: 5px;
   color: white;
+  mmargin-right: 10px;
 }
 #searchBtn{
   padding: 12px 30px;
@@ -46,4 +48,24 @@ h1{
   color: black;
   font-weight: bold;
   cursor: pointer;
+}
+#results{
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#results p{
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 18px;
+}
+#results span{
+  color: #00ffff;
+  font-weight: bold;
+  float: right;
 }
