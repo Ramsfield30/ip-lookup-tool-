@@ -38,9 +38,9 @@ function updateDisplay(data) {
 
 // Function to show loading state
 function showLoading() {
-    const fields = ['network', 'city', 'country', 'timezone', 'coords', 'zip'];
+    const fields = ['network', 'city', 'country', 'timezone', 'coords', 'zip', 'isp', 'asn', 'currency', 'calling-code'];
     fields.forEach(id => {
-        document.getElementById(id).innerHTML = '<span class="loading-dots">...</span>';
+        document.getElementById(id).innerHTML = '<span class="loading-dots">.</span>';
     });
     hideMapSection();
 

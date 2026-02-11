@@ -101,13 +101,14 @@ h1{
 }
 /*For the button*/
 #searchBtn{
-  padding: 12px 30px;
+  padding: 12px 10px;
   background: #00ffff;
   border: none;
   border-radius: 5px;
   color: black;
   font-weight: bold;
   cursor: pointer;
+  
 }
 /*For Results*/
 #results{
@@ -154,4 +155,41 @@ h1{
     content: '...';
     animation: dots 1.5s infinite;
     color: #00ffff;
+}
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+    
+    #ipInput {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    
+    #searchBtn{
+        width: 30%;
+        margin: 5px 0;
+        padding: 12px;
+    }
+    
+    #map {
+        height: 300px;
+    }
+    
+    #results {
+        padding: 15px;
+        margin: 20px 10px;
+    }
+}
+.search-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 30px auto;
+    max-width: 800px;
+    flex-wrap: wrap;
 }
