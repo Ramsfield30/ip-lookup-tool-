@@ -1,11 +1,20 @@
+
 body{
   background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
   margin: 0;
   padding: 20px;
   color: white;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
+
+*{
+    box-sizing: border-box;
+}
+
 h1{
   text-align: center;
   font-size: 36px;
@@ -13,22 +22,58 @@ h1{
   letter-spacing: 3px;
   animation: textGlow 3s infinite;
 }
+
 @keyframes textGlow{
   0%{
     color: #00ffff;
     text-shadow: 0 0 20px #00ffff;
-    
   }
   50%{
     color: #ff00ff;
     text-shadow: 0 0 20px #ff00ff;
-    
   }
   100%{
     color: #fff000;
     text-shadow: 0 0 20px #fff000;
   }
 }
+
+/* DESKTOP SEARCH CONTAINER - CENTERED */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 30px auto;
+    max-width: 800px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    padding: 0;
+}
+
+#ipInput {
+    width: 300px;
+    padding: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    color: white;
+    margin-right: 0;
+}
+
+#searchBtn{
+    padding: 12px 30px;
+    background: #00ffff;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
 /* LIGHT MODE MAP STYLES */
 #map-section {
     margin-top: 40px;
@@ -41,7 +86,7 @@ h1{
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
-    display: none; /* Hidden by default */
+    display: none;
 }
 
 #map-section h3 {
@@ -88,63 +133,31 @@ h1{
     background: #f0f0f0;
 }
 
-/* Fix your CSS typo in #ipInput */
-#ipInput {
-    width: 300px;
-    padding: 12px;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #00ffff;
-    border-radius: 5px;
-    color: white;
-    margin-right: 10px; /* FIXED: was mmargin-right */
-}
-/*For the button*/
-#searchBtn{
-  padding: 12px 10px;
-  background: #00ffff;
-  border: none;
-  border-radius: 5px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  
-}
-/*For Results*/
+/* Results Section */
 #results{
-  margin-top: 30px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  border: 1px solid rgba(0, 255, 255, 0.2);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 #results p{
-  padding: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 18px;
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 18px;
 }
+
 #results span{
-  color: #00ffff;
-  font-weight: bold;
-  float: right;
+    color: #00ffff;
+    font-weight: bold;
+    float: right;
 }
-/*For the map*/
-#map-container{
-  margin-top: 30px;
-  text-align: center;
-}
-#map{
-  height: 400px;
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #00ffff;
-}
+
+/* Loading Animation */
 @keyframes dots {
     0%, 20% { content: '.'; }
     40% { content: '..'; }
@@ -156,10 +169,21 @@ h1{
     animation: dots 1.5s infinite;
     color: #00ffff;
 }
-/* Mobile responsiveness */
+
+/* MOBILE RESPONSIVENESS */
 @media (max-width: 768px) {
     h1 {
         font-size: 28px;
+    }
+    
+    .search-container {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 10px;
+        margin: 20px auto;
+        padding: 0 20px;
+        width: 100%;
     }
     
     #ipInput {
@@ -169,10 +193,11 @@ h1{
         margin-right: 0;
     }
     
-    #searchBtn{
-        width: 30%;
+    #searchBtn {
+        width: auto;
+        padding: 12px 30px;
         margin: 5px 0;
-        padding: 12px;
+        align-self: flex-start;
     }
     
     #map {
@@ -182,14 +207,17 @@ h1{
     #results {
         padding: 15px;
         margin: 20px 10px;
+        width: calc(100% - 20px);
+    }
+    
+    #map-section {
+        padding: 15px;
+        margin: 20px 10px;
+        width: calc(100% - 20px);
     }
 }
-.search-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 30px auto;
-    max-width: 800px;
-    flex-wrap: wrap;
+
+/* Remove duplicate/old map styles */
+#map-container{
+    display: none;
 }
