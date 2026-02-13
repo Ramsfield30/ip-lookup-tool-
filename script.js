@@ -207,3 +207,9 @@ ipInput.addEventListener('keypress', function(event) {
         searchBtn.click();
     }
 });
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('Service Worker registered'))
+        .catch(err => console.log('Service Worker registration failed'));
+}
